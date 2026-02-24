@@ -13,8 +13,8 @@ basat en el tutorial https://www.tutorialspoint.com/postgresql/postgresql_c_cpp.
 struct records_cod_zombies {
 
     enum tipus {
-        SOLO,
-        COOP
+        SOLO = 's',
+        COOP = 'c'
     };
 
     int record;
@@ -24,8 +24,38 @@ struct records_cod_zombies {
 
 };
 
-void create_record() {
-    // TODO insert
+void create_record(pqxx::connection &conn) {
+
+    // Menú de creació d'un nou rècord
+    int ronda_maxima;
+    std::string mapa;
+    char char_tipus_record;
+
+    std::cout << "Menú per a inserir un nou rècord" << std::endl;
+    
+    std::cout << "- màxima ronda: ";
+    std::cin >> ronda_maxima;
+
+    std::cout << "- nom del mapa: ";
+    std::cin >> mapa;
+
+    std::cout << "- SOLO o COOP? (s/c): ";
+    std::cin >> char_tipus_record;
+
+    // Gestió a la psql
+    std::string sql(
+        "INSERT INTO records (record, jugador) VALUES (ROW("+std::to_string(ronda_maxima)+",'"+mapa+"','"+
+        (char_tipus_record == 's'? "SOLO":"COOP")
+        +"'), 1)"
+    );
+
+    pqxx::work w(conn);
+
+    /* Execute SQL query */
+    w.exec( sql );
+    w.commit();
+    std::cout << "Rècord inserit amb èxit" << std::endl;
+
 }
 
 void read_records() {
@@ -53,7 +83,7 @@ int main(int argc, char* argv[]) {
             switch (opcio_menu)
             {
             case 1:
-                create_record();
+                create_record(conn);
                 break;
 
             case 2:

@@ -1,12 +1,13 @@
 CREATE DATABASE codzombies;
 \c codzombies;
 
-CREATE TYPE tipus_record AS ENUM('SOLO','COOP');
+CREATE TYPE tipus_personatge AS ENUM('NIKOLAI','RICHTOFEN','TAKEO','DEMPSEY');
 
 CREATE TYPE record_obj AS (
-    maxima_ronda INT,
+    ronda_maxima INT,
     mapa VARCHAR(20),
-    tipus tipus_record
+    personatge tipus_personatge,
+    jugatAPC BOOL
 );
 
 CREATE TABLE jugadors (
@@ -28,6 +29,6 @@ INSERT INTO jugadors (nom, data_registre, regio)
         ('Jordi', NOW(), 'Espanya');
 
 INSERT INTO records (record, jugador) 
-    VALUES (ROW(56,'Kino der toten','SOLO'), 1),
-        (ROW(32,'Estación','COOP'), 2),
-        (ROW(123,'Der riese','SOLO'), 1);
+    VALUES (ROW(56,'Kino der toten','NIKOLAI', TRUE), 1),
+        (ROW(32,'Estación','DEMPSEY', FALSE), 2),
+        (ROW(123,'Der riese','TAKEO', FALSE), 1);

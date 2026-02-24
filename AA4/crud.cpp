@@ -1,6 +1,15 @@
 #include <iostream>
 #include <pqxx/pqxx>
 
+/*
+
+Implementació d'un CRUD utilitzant C++ i PostgreSQL.
+El CRUD són les operacions bàsiques per a gestionar una base de dades.
+Utilització de la llibreria pqxx que connecta C++ amb PostgreSQL
+basat en el tutorial https://www.tutorialspoint.com/postgresql/postgresql_c_cpp.htm.
+
+*/
+
 struct records_cod_zombies {
 
     enum tipus {

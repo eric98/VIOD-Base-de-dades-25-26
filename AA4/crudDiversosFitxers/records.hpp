@@ -19,3 +19,5 @@ struct record_cod_zombies {
 };
 
 std::string getStringFromTipusPersonatge(record_cod_zombies::tipus_personatge p);
+record_cod_zombies::tipus_personatge getTipusPersonatgeFromString(const std::string &p);
+std::string recordToString(record_cod_zombies &r);

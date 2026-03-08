@@ -9,6 +9,12 @@ El CRUD són les operacions bàsiques per a gestionar una base de dades.
 Utilització de la llibreria pqxx que connecta C++ amb PostgreSQL
 basat en el tutorial https://www.tutorialspoint.com/postgresql/postgresql_c_cpp.htm.
 
+# 1. Compilació (Afegir el cpp i la llibreria pqxx):
+$ g++ -o crud crud.cpp -lpqxx
+
+# 2. Execució:
+$ ./crud
+
 */
 
 struct record_cod_zombies
@@ -160,7 +166,7 @@ void opcioCreate(pqxx::connection &conn)
     std::cin.clear();
     std::getline(std::cin, mapa);
 
-    std::cout << "- Personatge jugat (Nikolai = n, Richtofen = r, Takeo = t, Dempsey = d) [n/r/t/d]" << std::endl;
+    std::cout << "- Personatge jugat (Nikolai = n, Richtofen = r, Takeo = t, Dempsey = d) [n/r/t/d]: ";
     std::cin >> charPersonatgeRecord;
     personatge_record = (record_cod_zombies::tipus_personatge)charPersonatgeRecord;
 

@@ -4,8 +4,14 @@
 #include <iostream>
 #include "records.hpp"
 
-// Gestió INSERT a PostgreSQL (sense consultes preparades)
-void readRecord(pqxx::connection &conn, record_cod_zombies &r);
+// CREATE: Gestió INSERT a PostgreSQL (sense consultes preparades)
+void createRecord(pqxx::connection &conn, record_cod_zombies &r);
 
-// Gestió SELECT a PostgreSQL (sense consultes preparades)
+// READ: Gestió SELECT a PostgreSQL (sense consultes preparades)
 void readRecords(pqxx::connection &conn);
+
+// UPDATE: Gestió UPDATE a PostgreSQL
+void updateRecord(pqxx::connection &conn, int id, record_cod_zombies &r);
+
+// DELETE: Gestió DELETE a PostgreSQL
+void deleteRecord(pqxx::connection &conn, int id);

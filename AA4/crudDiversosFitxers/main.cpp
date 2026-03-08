@@ -19,61 +19,69 @@ $ ./crud
 */
 
 
-int main(int argc, char* argv[]) {
-   try {
-      pqxx::connection conn("dbname = codzombies user = postgres password = Alumne.123");
-      if (conn.is_open()) {
-         std::cout << "S'ha obert la base de dades: " << conn.dbname() << std::endl;
+int main(int argc, char *argv[])
+{
+    try
+    {
+        pqxx::connection conn("dbname = codzombies user = postgres password = Alumne.123");
+        if (conn.is_open())
+        {
+            std::cout << "S'ha obert la base de dades: " << conn.dbname() << std::endl;
 
-         std::cout << "<<< Rècords COD Zombies >>>" << std::endl;
-         
-         int opcio_menu = 0;
-         while (opcio_menu < 1 || opcio_menu > 5)
-         {
-            std::cout << "Indica quina opció vols fer: " << std::endl;
-            std::cout << "\t (1) Inserir rècord" << std::endl;
-            std::cout << "\t (2) Consultar records" << std::endl;
-            std::cout << "\t (3) Actualtitzar rècord" << std::endl;
-            std::cout << "\t (4) Esborrar rècord" << std::endl;
-            std::cout << "\t (5) Sortir" << std::endl;
-
+            // TODO: parametritzar 'jugador' a INSERT, sempre és 1
+            // TODO: poder actualitzar 'jugador' a UPDATE, sempre és 1
+            conn.prepare("insert","INSERT INTO records (record, jugador) VALUES (ROW($1,$2,$3,$4), 1)");
+            conn.prepare("select", "SELECT id, (record).*, jugador FROM records");
+            conn.prepare("update", "UPDATE records SET record = ROW($2,$3,$4,$5) WHERE id = $1");
+            // TODO: prepare delete
             
-            std::cin >> opcio_menu;
-
-            switch (opcio_menu)
+            int opcio_menu = 0;
+            do
             {
-            case 1:
-                opcioCreate(conn);
-                break;
-            case 2:
-                opcioRead(conn);
-                break;
-            case 3:
-                opcioUpdate(conn);
-                break;
-            case 4:
-                opcioDelete(conn);
-                break;
-            case 5:
-                std::cout << "Fins aviat" << std::endl;
-                break;
+                std::cout << "\n<<< Rècords COD Zombies >>>" << std::endl;
+                std::cout << "\nIndica quina opció vols fer: " << std::endl;
+                std::cout << "\t (1) Inserir rècord" << std::endl;
+                std::cout << "\t (2) Consultar records" << std::endl;
+                std::cout << "\t (3) Actualtitzar rècord" << std::endl;
+                std::cout << "\t (4) Esborrar rècord" << std::endl;
+                std::cout << "\t (5) Sortir" << std::endl;
+                std::cin >> opcio_menu;
 
-            // Si la opció no existeix
-            default:
-                std::cout << "La opció " << opcio_menu << " no existeix." << std::endl;
-                break;
-            }
+                switch (opcio_menu)
+                {
+                case 1:
+                    opcioCreate(conn);
+                    break;
+                case 2:
+                    opcioRead(conn);
+                    break;
+                case 3:
+                    opcioUpdate(conn);
+                    break;
+                case 4:
+                    opcioDelete(conn);
+                    break;
+                case 5:
+                    // TODO sortida del programa
+                    break;
 
-         }
-         
+                // Si la opció no existeix
+                default:
+                    std::cout << "La opció " << opcio_menu << " no existeix." << std::endl;
+                    break;
+                }
 
-      } else {
-         std::cout << "No s'ha pogut obrir la base de dades." << std::endl;
-         return 1;
-      }
-   } catch (const std::exception &e) {
-      std::cerr << e.what() << std::endl;
-      return 1;
-   }
-
+            } while (opcio_menu != 5);
+        }
+        else
+        {
+            std::cout << "No s'ha pogut obrir la base de dades." << std::endl;
+            return 1;
+        }
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << std::endl;
+        return 1;
+    }
 }

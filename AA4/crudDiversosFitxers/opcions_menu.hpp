@@ -4,6 +4,7 @@
 #include <iostream>
 #include "orm.hpp"
 
+// Opció (1) del menú: crear un nou rècord
 void opcioCreate(pqxx::connection &conn);
 
 // Opció (2) del menú: consultar els rècords existents

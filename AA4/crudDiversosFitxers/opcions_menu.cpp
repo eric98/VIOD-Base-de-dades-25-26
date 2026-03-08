@@ -48,7 +48,7 @@ void opcioCreate(pqxx::connection &conn) {
         jugatAPC
     };
 
-    inserirRecord(conn, nouRecord);
+    readRecord(conn, nouRecord);
 
     std::cout << "Rècord inserit amb èxit" << std::endl;
 }
